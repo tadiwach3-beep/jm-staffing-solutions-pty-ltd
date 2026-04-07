@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const eventTypes = ["Wedding", "Corporate Gala", "Private Party", "Holiday Event", "Fundraiser", "Product Launch", "Other"];
 const staffTypes = ["Waitstaff", "Bartenders", "Private Chef", "Event Coordinator", "All of the Above"];
@@ -11,11 +12,32 @@ const Booking = () => {
   const [form, setForm] = useState({
     name: "", email: "", phone: "", eventType: "", date: "", guests: "", staffNeeded: "", details: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Booking request submitted! We'll get back to you within 24 hours.");
-    setForm({ name: "", email: "", phone: "", eventType: "", date: "", guests: "", staffNeeded: "", details: "" });
+    setSubmitting(true);
+    try {
+      const id = crypto.randomUUID();
+      const { error } = await supabase.from("booking_requests").insert({
+        id,
+        name: form.name,
+        email: form.email,
+        phone: form.phone || null,
+        event_type: form.eventType,
+        event_date: form.date,
+        guests: form.guests || null,
+        staff_needed: form.staffNeeded,
+        details: form.details || null,
+      });
+      if (error) throw error;
+      toast.success("Booking request submitted! We'll get back to you within 24 hours.");
+      setForm({ name: "", email: "", phone: "", eventType: "", date: "", guests: "", staffNeeded: "", details: "" });
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -77,8 +99,8 @@ const Booking = () => {
               <label className="font-body text-sm font-medium text-foreground block mb-2">Additional Details</label>
               <textarea rows={4} value={form.details} onChange={(e) => setForm({ ...form, details: e.target.value })} className="w-full px-4 py-3 rounded border border-input bg-background font-body text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none" placeholder="Tell us more about your event, special requests, theme, etc." />
             </div>
-            <button type="submit" className="w-full py-4 bg-gold text-navy font-body font-semibold uppercase tracking-wider rounded hover:bg-gold-dark transition-colors text-sm">
-              Submit Booking Request
+            <button type="submit" disabled={submitting} className="w-full py-4 bg-gold text-navy font-body font-semibold uppercase tracking-wider rounded hover:bg-gold-dark transition-colors text-sm disabled:opacity-50">
+              {submitting ? "Submitting..." : "Submit Booking Request"}
             </button>
           </motion.form>
         </div>

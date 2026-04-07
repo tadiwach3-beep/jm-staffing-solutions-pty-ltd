@@ -4,14 +4,26 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message sent! We'll respond within 24 hours.");
-    setForm({ name: "", email: "", subject: "", message: "" });
+    setSubmitting(true);
+    try {
+      const id = crypto.randomUUID();
+      const { error } = await supabase.from("contact_submissions").insert({ id, ...form });
+      if (error) throw error;
+      toast.success("Message sent! We'll respond within 24 hours.");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -79,8 +91,8 @@ const Contact = () => {
                 <label className="font-body text-sm font-medium text-foreground block mb-2">Message *</label>
                 <textarea rows={5} required value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} className="w-full px-4 py-3 rounded border border-input bg-background font-body text-sm focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none" placeholder="Tell us about your event..." />
               </div>
-              <button type="submit" className="w-full py-4 bg-gold text-navy font-body font-semibold uppercase tracking-wider rounded hover:bg-gold-dark transition-colors text-sm">
-                Send Message
+              <button type="submit" disabled={submitting} className="w-full py-4 bg-gold text-navy font-body font-semibold uppercase tracking-wider rounded hover:bg-gold-dark transition-colors text-sm disabled:opacity-50">
+                {submitting ? "Sending..." : "Send Message"}
               </button>
             </motion.form>
           </div>
