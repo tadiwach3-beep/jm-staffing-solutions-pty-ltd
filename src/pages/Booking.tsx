@@ -18,9 +18,7 @@ const Booking = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const id = crypto.randomUUID();
       const { error } = await supabase.from("booking_requests").insert({
-        id,
         name: form.name,
         email: form.email,
         phone: form.phone || null,

@@ -14,8 +14,12 @@ const Contact = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const id = crypto.randomUUID();
-      const { error } = await supabase.from("contact_submissions").insert({ id, ...form });
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: form.name,
+        email: form.email,
+        subject: form.subject,
+        message: form.message,
+      });
       if (error) throw error;
       toast.success("Message sent! We'll respond within 24 hours.");
       setForm({ name: "", email: "", subject: "", message: "" });
