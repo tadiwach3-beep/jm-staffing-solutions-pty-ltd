@@ -14,72 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      booking_requests: {
+      orders: {
         Row: {
-          created_at: string
-          details: string | null
-          email: string
-          event_date: string
-          event_type: string
-          guests: string | null
+          address: string
+          city: string
+          country: string | null
+          created_at: string | null
+          customer_name: string
+          email: string | null
           id: string
-          name: string
-          phone: string | null
-          staff_needed: string
+          notes: string | null
+          phone: string
+          product_name: string
+          product_variant: string | null
+          quantity: number
           status: string
         }
         Insert: {
-          created_at?: string
-          details?: string | null
-          email: string
-          event_date: string
-          event_type: string
-          guests?: string | null
+          address: string
+          city: string
+          country?: string | null
+          created_at?: string | null
+          customer_name: string
+          email?: string | null
           id?: string
-          name: string
-          phone?: string | null
-          staff_needed: string
+          notes?: string | null
+          phone: string
+          product_name: string
+          product_variant?: string | null
+          quantity?: number
           status?: string
         }
         Update: {
-          created_at?: string
-          details?: string | null
-          email?: string
-          event_date?: string
-          event_type?: string
-          guests?: string | null
+          address?: string
+          city?: string
+          country?: string | null
+          created_at?: string | null
+          customer_name?: string
+          email?: string | null
           id?: string
-          name?: string
-          phone?: string | null
-          staff_needed?: string
+          notes?: string | null
+          phone?: string
+          product_name?: string
+          product_variant?: string | null
+          quantity?: number
           status?: string
         }
         Relationships: []
       }
-      contact_submissions: {
+      profiles: {
         Row: {
-          created_at: string
-          email: string
-          id: string
-          message: string
-          name: string
-          subject: string
+          role: string
+          user_id: string
         }
         Insert: {
-          created_at?: string
-          email: string
-          id?: string
-          message: string
-          name: string
-          subject: string
+          role?: string
+          user_id: string
         }
         Update: {
-          created_at?: string
-          email?: string
-          id?: string
-          message?: string
-          name?: string
-          subject?: string
+          role?: string
+          user_id?: string
         }
         Relationships: []
       }
