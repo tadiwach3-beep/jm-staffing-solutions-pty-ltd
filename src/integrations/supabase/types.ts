@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      booking_requests: {
+        Row: {
+          created_at: string
+          details: string | null
+          email: string
+          event_date: string
+          event_type: string
+          guests: string | null
+          id: string
+          name: string
+          phone: string | null
+          staff_needed: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          email: string
+          event_date: string
+          event_type: string
+          guests?: string | null
+          id?: string
+          name: string
+          phone?: string | null
+          staff_needed: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          email?: string
+          event_date?: string
+          event_type?: string
+          guests?: string | null
+          id?: string
+          name?: string
+          phone?: string | null
+          staff_needed?: string
+        }
+        Relationships: []
+      }
+      contact_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          subject: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          subject: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          subject?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string
