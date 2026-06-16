@@ -10,6 +10,14 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
+import Forbidden from "./pages/Forbidden";
+import AdminLayout from "./pages/admin/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import Bookings from "./pages/admin/Bookings";
+import Contacts from "./pages/admin/Contacts";
+import AuditLogs from "./pages/admin/AuditLogs";
+import { AdminAuthProvider } from "./hooks/useAdminAuth";
 
 const queryClient = new QueryClient();
 
@@ -17,17 +25,27 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <Sonner />
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <AdminAuthProvider>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/403" element={<Forbidden />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="contacts" element={<Contacts />} />
+            <Route path="audit-logs" element={<AuditLogs />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AdminAuthProvider>
     </BrowserRouter>
   </QueryClientProvider>
 );
