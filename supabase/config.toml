@@ -1,1 +1,4 @@
 project_id = "lvxbkyciuhnshbckqgzi"
+
+[functions.send-bird-email]
+verify_jwt = false
