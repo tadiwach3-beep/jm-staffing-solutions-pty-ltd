@@ -15,32 +15,17 @@ export default function Auth() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [busy, setBusy] = useState(false);
 
-  // If already signed in, route based on admin status.
+  // If already signed in, send to admin dashboard.
   useEffect(() => {
-    let cancelled = false;
-    const route = async (userId: string) => {
-      const { data } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId)
-        .eq("role", "admin")
-        .maybeSingle();
-      if (cancelled) return;
-      navigate(data ? "/admin" : "/403", { replace: true });
-    };
-
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session?.user) route(data.session.user.id);
+      if (data.session?.user) navigate("/admin", { replace: true });
     });
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) route(session.user.id);
+      if (session?.user) navigate("/admin", { replace: true });
     });
 
-    return () => {
-      cancelled = true;
-      sub.subscription.unsubscribe();
-    };
+    return () => sub.subscription.unsubscribe();
   }, [navigate]);
 
   const submit = async (e: React.FormEvent) => {

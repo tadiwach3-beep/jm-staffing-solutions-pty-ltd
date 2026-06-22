@@ -62,7 +62,7 @@ function AppSidebar() {
 }
 
 export default function AdminLayout() {
-  const { session, isAdmin, loading } = useAdminAuth();
+  const { session, loading } = useAdminAuth();
   const location = useLocation();
 
   if (loading) {
@@ -74,7 +74,6 @@ export default function AdminLayout() {
     );
   }
   if (!session) return <Navigate to="/auth" state={{ from: location }} replace />;
-  if (!isAdmin) return <Navigate to="/403" replace />;
 
   return (
     <SidebarProvider>
