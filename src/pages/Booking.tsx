@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { sendTemplatedEmail } from "@/lib/sendTemplatedEmail";
 
 const eventTypes = ["Wedding", "Corporate Gala", "Private Party", "Holiday Event", "Fundraiser", "Product Launch", "Other"];
 const staffTypes = ["Waitstaff", "Bartenders", "Private Chef", "Event Coordinator", "All of the Above"];
@@ -29,6 +30,14 @@ const Booking = () => {
         details: form.details || null,
       });
       if (error) throw error;
+      sendTemplatedEmail("booking_confirmation", form.email, {
+        name: form.name,
+        event_type: form.eventType,
+        event_date: form.date,
+        guests: form.guests,
+        staff_needed: form.staffNeeded,
+        details: form.details,
+      });
       toast.success("Booking request submitted! We'll get back to you within 24 hours.");
       setForm({ name: "", email: "", phone: "", eventType: "", date: "", guests: "", staffNeeded: "", details: "" });
     } catch {
