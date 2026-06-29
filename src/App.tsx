@@ -18,6 +18,7 @@ import Bookings from "./pages/admin/Bookings";
 import Contacts from "./pages/admin/Contacts";
 import AuditLogs from "./pages/admin/AuditLogs";
 import EmailTemplates from "./pages/admin/EmailTemplates";
+import Users from "./pages/admin/Users";
 import { AdminAuthProvider } from "./hooks/useAdminAuth";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="bookings" element={<Bookings />} />
             <Route path="contacts" element={<Contacts />} />
             <Route path="email-templates" element={<EmailTemplates />} />
+            <Route path="users" element={<Users />} />
             <Route path="audit-logs" element={<AuditLogs />} />
           </Route>
           <Route path="*" element={<NotFound />} />
