@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { sendTemplatedEmail } from "@/lib/sendTemplatedEmail";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
@@ -21,6 +22,11 @@ const Contact = () => {
         message: form.message,
       });
       if (error) throw error;
+      sendTemplatedEmail("contact_received", form.email, {
+        name: form.name,
+        subject: form.subject,
+        message: form.message,
+      });
       toast.success("Message sent! We'll respond within 24 hours.");
       setForm({ name: "", email: "", subject: "", message: "" });
     } catch {

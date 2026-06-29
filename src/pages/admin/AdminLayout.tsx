@@ -12,7 +12,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard, CalendarCheck, Mail, ScrollText, LogOut } from "lucide-react";
+import { LayoutDashboard, CalendarCheck, Mail, MailOpen, ScrollText, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,6 +21,7 @@ const items = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard, end: true },
   { title: "Bookings", url: "/admin/bookings", icon: CalendarCheck },
   { title: "Contact Messages", url: "/admin/contacts", icon: Mail },
+  { title: "Email Templates", url: "/admin/email-templates", icon: MailOpen },
   { title: "Audit Logs", url: "/admin/audit-logs", icon: ScrollText },
 ];
 
